@@ -32,11 +32,12 @@ async def main():
 
     # Create Sensor object with two properties
     sensor = await server.nodes.base_object_type.add_object_type(idx, "Sensor")
-    await (await sensor.add_property(idx, "sensor_id", 0)).set_modelling_rule(True)
-    await (await sensor.add_property(idx, "value", 0.0)).set_modelling_rule(True)
+    await (await sensor.add_variable(idx, "value", 0.0)).set_modelling_rule(True)
 
     # Populate the address space
     sensor0 = await server.nodes.objects.add_object(idx, "Sensor0", sensor)
+    await (await sensor0.add_property(idx, "id", 0)).set_modelling_rule(True)
+    await (await sensor0.add_property(idx, "name", "Sensor0")).set_modelling_rule(True)
 
     # Start Server
     async with server:
@@ -44,8 +45,6 @@ async def main():
         sensor0_value_var = await sensor0.get_child([f"{idx}:value"])
 
         while True:
-            # In order to trigger data change, a deep copy is needed
-            sensor0_value = copy.copy(await sensor0_value_var.read_value())
             # Generate a random float between 0.0 and 100.0
             sensor0_value = uniform(0.0, 100.0)
             # Write the value to trigger data change
