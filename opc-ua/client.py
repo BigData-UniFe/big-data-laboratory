@@ -1,6 +1,8 @@
 import asyncio
 import logging
 import json
+import pytz
+from datetime import datetime, timezone
 from logstash import LogstashHandler
 from asyncua import Client, ua, Node
 
@@ -24,18 +26,22 @@ _logstash_logger.addHandler(LogstashHandler(
 class SubHandler(object):
     # The following method is used when a data change happens
     async def datachange_notification(self, node: Node, val, data: ua.DataChangeNotification):
-        sensor_id = await(await (await node.get_parent()).get_child([f"{node.nodeid.NamespaceIndex}:sensor_id"])).read_value()
-        timestamp = data.monitored_item.Value.SourceTimestamp.isoformat()
+        sensor_id = await(await (await node.get_parent()).get_child([f"{node.nodeid.NamespaceIndex}:id"])).read_value()
+        sensor_name = await(await (await node.get_parent()).get_child([f"{node.nodeid.NamespaceIndex}:name"])).read_value()
+        sensor_timestamp = data.monitored_item.Value.SourceTimestamp.replace(
+            tzinfo=timezone.utc).astimezone(tz=None).strftime('%Y-%m-%dT%H:%M:%S.%f')
 
         _logger.info(f"Sensor id: {sensor_id}")
+        _logger.info(f"Sensor name: {sensor_name}")
         _logger.info(f"Sensor value: {val}")
-        _logger.info(f"Sensor timestamp: {timestamp}")
+        _logger.info(f"Sensor timestamp: {sensor_timestamp}")
 
         formatted_data = {
             "sensor": {
                 "sensor_id": sensor_id,
-                "value": val,
-                "timestamp": data.monitored_item.Value.SourceTimestamp.isoformat()
+                "sensor_name": sensor_name,
+                "sensor_value": val,
+                "sensor_timestamp": sensor_timestamp
             }
         }
 

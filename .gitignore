@@ -1,2 +1,5 @@
 .vscode
 engines
+**/*.db
+**/*.db-shm
+**/*.db-wal
