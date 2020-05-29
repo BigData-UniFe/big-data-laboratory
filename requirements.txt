@@ -1,0 +1,8 @@
+setuptools
+wheel
+pyfiglet
+PyInquirer
+asyncua
+python-logstash
+peewee
+pyspark
