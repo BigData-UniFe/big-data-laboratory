@@ -1,5 +1,7 @@
 # Big Data Laboratory
 
+![Pipeline Architecture](pipeline-architecture.png 'Pipeline Architecture')
+
 ## Index
 
 - [Prerequisites](#prerequisites)
@@ -35,6 +37,7 @@
 	- [Logstash](#logstash-1)
 	- [Kibana](#kibana-1)
 	- [Apache Spark](#apache-spark-1)
+- [Useful Links](#useful-links)
 
 ## Prerequisites
 
@@ -799,3 +802,11 @@ cd engines/spark-2.4.5-bin-hadoop2.7
 # Submit the Spark program to Spark core
 bin/spark-submit --packages org.apache.spark:spark-streaming-kafka_2.11:1.6.3 ../../spark/sensor-processing.py
 ```
+
+## Useful Links
+
+- [Spark](https://spark.apache.org/)
+- [Spark Streaming](https://spark.apache.org/docs/latest/streaming-programming-guide.html)
+- [Logstash](https://www.elastic.co/guide/en/logstash/current/index.html)
+- [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
+- [Kibana](https://www.elastic.co/guide/en/kibana/current/index.html)
