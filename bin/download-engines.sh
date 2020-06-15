@@ -22,3 +22,5 @@ tar -xvzf kibana-7.7.0-linux-x86_64.tar.gz
 rm kibana-7.7.0-linux-x86_64.tar.gz
 
 cd ..
+
+sleep 60
